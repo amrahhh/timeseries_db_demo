@@ -1,0 +1,11 @@
+curl -X POST "http://127.0.0.1:8000/write" \
+-H "Content-Type: application/json" \
+-d '{"measurement": "amount", "value": 50}'
+
+
+curl -X GET "http://127.0.0.1:8000/query?measurement=temperature&start=-5h&stop=-1m"
+
+
+from(bucket: "demo")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "temperature")
